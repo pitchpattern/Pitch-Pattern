@@ -1,17 +1,874 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Pitch & Pattern</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pitch & Pattern — Markets. Geopolitics. Clarity.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #0A0F1E;
+      --slate:   #111827;
+      --card:    #151C2E;
+      --border:  #1E2A42;
+      --amber:   #F5A623;
+      --amber-d: #C4821A;
+      --teal:    #00C4B4;
+      --red:     #FF4D4D;
+      --green:   #00C48C;
+      --text:    #E8EDF5;
+      --muted:   #6B7A99;
+      --label:   #3D4F70;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── TICKER ── */
+    .ticker-wrap {
+      background: var(--slate);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      padding: 8px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .ticker-track {
+      display: flex;
+      gap: 40px;
+      width: max-content;
+      animation: ticker 40s linear infinite;
+    }
+    .ticker-wrap:hover .ticker-track { animation-play-state: paused; }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .tick {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.03em;
+    }
+    .tick-name { color: var(--muted); }
+    .tick-val  { color: var(--text); font-weight: 700; }
+    .tick-chg.up   { color: var(--green); }
+    .tick-chg.down { color: var(--red); }
+    .tick-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--label); }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: var(--amber);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+    }
+    .logo-icon svg { width: 20px; height: 20px; }
+    .logo-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .logo-text span { color: var(--amber); }
+    nav ul { list-style: none; display: flex; gap: 32px; }
+    nav ul a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav ul a:hover { color: var(--text); }
+    .nav-x {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 16px;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: border-color 0.2s;
+    }
+    .nav-x:hover { border-color: var(--amber); }
+    .nav-x svg { width: 16px; height: 16px; fill: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 72px 48px 56px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(245,166,35,0.1);
+      border: 1px solid rgba(245,166,35,0.25);
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 28px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--amber);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(36px, 5vw, 62px);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      max-width: 720px;
+      margin-bottom: 20px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--amber);
+      position: relative;
+    }
+    .hero-sub {
+      color: var(--muted);
+      font-size: 17px;
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--amber);
+      color: #000;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 12px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-primary:hover { background: #ffc14d; transform: translateY(-1px); }
+    .btn-ghost {
+      color: var(--text);
+      font-size: 14px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: border-color 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--muted); }
+
+    /* ── SECTION WRAPPER ── */
+    .section { padding: 56px 48px; max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 32px;
+    }
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0 48px;
+    }
+
+    /* ── MARKET GRID ── */
+    .market-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .market-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .market-card:hover { border-color: var(--label); }
+    .market-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+    }
+    .market-card.up::before   { background: var(--green); }
+    .market-card.down::before { background: var(--red); }
+    .mc-name {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .mc-val {
+      font-family: 'Space Mono', monospace;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .mc-chg {
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .mc-chg.up   { color: var(--green); }
+    .mc-chg.down { color: var(--red); }
+    .mc-flag { font-size: 18px; position: absolute; top: 18px; right: 18px; opacity: 0.6; }
+
+    /* TradingView embed */
+    .tv-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      height: 420px;
+    }
+
+    /* ── GEO-MARKET CARDS ── */
+    .geo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+    }
+    .geo-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .geo-card:hover { border-color: var(--label); transform: translateY(-2px); }
+    .geo-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .geo-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+    .geo-tag.hot    { background: rgba(255,77,77,0.15);  color: #FF7070; }
+    .geo-tag.watch  { background: rgba(245,166,35,0.15); color: var(--amber); }
+    .geo-tag.cool   { background: rgba(0,196,180,0.15);  color: var(--teal); }
+    .geo-region {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .geo-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.35;
+      color: var(--text);
+    }
+    .geo-body { font-size: 13px; color: var(--muted); line-height: 1.65; }
+    .geo-implication {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: rgba(245,166,35,0.06);
+      border: 1px solid rgba(245,166,35,0.15);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 12.5px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .geo-implication::before {
+      content: '→';
+      color: var(--amber);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .geo-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--label);
+      padding-top: 4px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── CHART SECTION ── */
+    .chart-row {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 20px;
+      align-items: start;
+    }
+    .chart-sidebar { display: flex; flex-direction: column; gap: 14px; }
+    .sidebar-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+    }
+    .sidebar-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .sidebar-val {
+      font-family: 'Space Mono', monospace;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .sidebar-sub { font-size: 12px; color: var(--muted); }
+    .up-text   { color: var(--green); }
+    .down-text { color: var(--red); }
+
+    /* ── NEWSLETTER ── */
+    .newsletter-wrap {
+      background: linear-gradient(135deg, #111827 0%, #0d1a2e 100%);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .newsletter-wrap::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(245,166,35,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .nl-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .nl-title span { color: var(--amber); }
+    .nl-sub { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
+    .nl-bullets { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .nl-bullets li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .nl-bullets li::before { content: '✦'; color: var(--amber); font-size: 10px; }
+    .nl-form { display: flex; flex-direction: column; gap: 14px; }
+    .nl-input-row { display: flex; gap: 10px; }
+    .nl-input {
+      flex: 1;
+      background: var(--navy);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 13px 16px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .nl-input::placeholder { color: var(--label); }
+    .nl-input:focus { border-color: var(--amber); }
+    .nl-btn {
+      background: var(--amber);
+      color: #000;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 13px 24px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .nl-btn:hover { background: #ffc14d; }
+    .nl-note { font-size: 11.5px; color: var(--label); }
+    .nl-stats { display: flex; gap: 32px; }
+    .nl-stat-val {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .nl-stat-lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-left { font-size: 13px; color: var(--muted); }
+    .footer-left strong { color: var(--amber); }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: 12px; color: var(--label); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-disc { font-size: 11px; color: var(--label); max-width: 420px; line-height: 1.5; text-align: right; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      nav ul { display: none; }
+      .hero { padding: 48px 24px 40px; }
+      .section { padding: 40px 24px; }
+      .divider { margin: 0 24px; }
+      .chart-row { grid-template-columns: 1fr; }
+      .chart-sidebar { flex-direction: row; flex-wrap: wrap; }
+      .sidebar-card { flex: 1; min-width: 140px; }
+      .newsletter-wrap { grid-template-columns: 1fr; padding: 32px 24px; }
+      .nl-input-row { flex-direction: column; }
+      footer { flex-direction: column; gap: 16px; text-align: center; }
+      .footer-disc { text-align: center; }
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
 </head>
-<body style="font-family: Arial, sans-serif; text-align:center; padding-top:100px;">
-  <h1>Pitch & Pattern</h1>
-  <p>Stock Market Insights & Technical Analysis</p>
-  <p>Website Coming Soon</p>
-  <p>
-    Follow on X:
-    <a href="https://x.com/PitchAndPattern">@PitchAndPattern</a>
-  </p>
+<body>
+
+<!-- ── TICKER TAPE ── -->
+<div class="ticker-wrap" aria-label="Live market indices">
+  <div class="ticker-track" id="ticker">
+    <!-- populated by JS -->
+  </div>
+</div>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="/" class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="2,14 7,8 11,11 18,4" stroke="#000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="14,4 18,4 18,8" stroke="#000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <span class="logo-text">Pitch<span>&</span>Pattern</span>
+  </a>
+  <ul>
+    <li><a href="#markets">Markets</a></li>
+    <li><a href="#geopolitics">Geopolitics</a></li>
+    <li><a href="#chart">Chart</a></li>
+    <li><a href="#newsletter">Newsletter</a></li>
+  </ul>
+  <a href="https://x.com/PitchAndPattern" target="_blank" rel="noopener" class="nav-x">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.743l7.735-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+    Follow on X
+  </a>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero reveal">
+  <div class="hero-eyebrow">Live · Markets & Geopolitics</div>
+  <h1>Where <em>global events</em> meet market moves</h1>
+  <p class="hero-sub">Connecting the dots between geopolitics and markets — for Indian investors who think beyond the ticker.</p>
+  <div class="hero-actions">
+    <a href="#newsletter" class="btn-primary">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Get the newsletter
+    </a>
+    <a href="https://x.com/PitchAndPattern" target="_blank" class="btn-ghost">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.743l7.735-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+      Read threads on X
+    </a>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ── MARKETS ── -->
+<section class="section reveal" id="markets">
+  <div class="section-label">Live Pulse</div>
+  <div class="section-title">Markets at a glance</div>
+
+  <div class="market-grid" id="marketGrid">
+    <!-- cards injected by JS -->
+  </div>
+
+  <!-- TradingView Mini Chart -->
+  <div class="chart-row reveal" id="chart">
+    <div class="tv-wrap">
+      <!-- TradingView Widget BEGIN -->
+      <div class="tradingview-widget-container" style="height:100%">
+        <div class="tradingview-widget-container__widget" style="height:100%"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+        {
+          "autosize": true,
+          "symbol": "NSE:NIFTY",
+          "interval": "D",
+          "timezone": "Asia/Kolkata",
+          "theme": "dark",
+          "style": "1",
+          "locale": "en",
+          "backgroundColor": "rgba(21, 28, 46, 1)",
+          "gridColor": "rgba(30, 42, 66, 0.8)",
+          "hide_top_toolbar": false,
+          "hide_legend": false,
+          "save_image": false,
+          "calendar": false,
+          "hide_volume": false,
+          "support_host": "https://www.tradingview.com"
+        }
+        </script>
+      </div>
+      <!-- TradingView Widget END -->
+    </div>
+    <div class="chart-sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-label">Nifty 50</div>
+        <div class="sidebar-val" id="niftyVal">—</div>
+        <div class="sidebar-sub up-text" id="niftyChg">Loading…</div>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-label">India VIX</div>
+        <div class="sidebar-val" id="vixVal">13.42</div>
+        <div class="sidebar-sub down-text">↓ 0.8 · Low volatility zone</div>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-label">USD/INR</div>
+        <div class="sidebar-val">₹84.21</div>
+        <div class="sidebar-sub muted" style="color:var(--muted)">Stable · RBI intervention range</div>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-label">Brent Crude</div>
+        <div class="sidebar-val">$78.4</div>
+        <div class="sidebar-sub down-text">↓ 1.2% · Watch Iran tensions</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ── GEOPOLITICS → MARKETS ── -->
+<section class="section reveal" id="geopolitics">
+  <div class="section-label">Geo × Markets</div>
+  <div class="section-title">What's moving the world — and your portfolio</div>
+
+  <div class="geo-grid" id="geoGrid">
+
+    <div class="geo-card">
+      <div class="geo-top">
+        <div>
+          <div class="geo-region">Middle East</div>
+          <div class="geo-tag hot">🔴 Hot</div>
+        </div>
+        <div style="font-size:28px">🛢️</div>
+      </div>
+      <div class="geo-title">Iran–Israel tensions keeping oil risk premium elevated</div>
+      <div class="geo-body">Strait of Hormuz traffic remains under watch. Any escalation could spike Brent above $90, pressuring India's import bill and CAD.</div>
+      <div class="geo-implication">Watch: ONGC, Oil India rally on crude spikes. Aviation stocks (IndiGo) face margin pressure. Rupee depreciation risk.</div>
+      <div class="geo-footer"><span>Updated: June 2025</span><span>Energy · Currency</span></div>
+    </div>
+
+    <div class="geo-card">
+      <div class="geo-top">
+        <div>
+          <div class="geo-region">USA · Trade</div>
+          <div class="geo-tag watch">🟡 Watch</div>
+        </div>
+        <div style="font-size:28px">🤝</div>
+      </div>
+      <div class="geo-title">US tariff pause opens window for India — but China overhang remains</div>
+      <div class="geo-body">India positioned as alternate supply chain hub. Electronics PLI beneficiaries could see order flows accelerate if US-China trade stays cold.</div>
+      <div class="geo-implication">Watch: Dixon Technologies, Kaynes, Tata Elxsi. Textile exporters also benefit from China+1 pivot.</div>
+      <div class="geo-footer"><span>Updated: June 2025</span><span>Tech · Manufacturing</span></div>
+    </div>
+
+    <div class="geo-card">
+      <div class="geo-top">
+        <div>
+          <div class="geo-region">India · Macro</div>
+          <div class="geo-tag cool">🟢 Positive</div>
+        </div>
+        <div style="font-size:28px">📉</div>
+      </div>
+      <div class="geo-title">RBI rate cut cycle begins — what it means for equities and debt</div>
+      <div class="geo-body">With inflation cooling to ~4%, RBI has room to cut. Rate-sensitive sectors stand to benefit as cost of capital falls across the board.</div>
+      <div class="geo-implication">Watch: Banking stocks (HDFC Bank, Kotak), Real Estate (Godrej Props, DLF). Duration play via long-term gilt funds.</div>
+      <div class="geo-footer"><span>Updated: June 2025</span><span>Banking · Rates</span></div>
+    </div>
+
+    <div class="geo-card">
+      <div class="geo-top">
+        <div>
+          <div class="geo-region">Europe · Energy</div>
+          <div class="geo-tag watch">🟡 Watch</div>
+        </div>
+        <div style="font-size:28px">⚡</div>
+      </div>
+      <div class="geo-title">Russia–Ukraine ceasefire talks: gas markets watching closely</div>
+      <div class="geo-body">Any peace deal could ease European energy prices and free up capital from defense budgets. Global commodities would reprice quickly.</div>
+      <div class="geo-implication">Watch: Indian metals & steel exporters benefit from Europe reconstruction demand. NMDC, Tata Steel, JSW Steel.</div>
+      <div class="geo-footer"><span>Updated: June 2025</span><span>Metals · Energy</span></div>
+    </div>
+
+    <div class="geo-card">
+      <div class="geo-top">
+        <div>
+          <div class="geo-region">India · Infra</div>
+          <div class="geo-tag cool">🟢 Positive</div>
+        </div>
+        <div style="font-size:28px">🏗️</div>
+      </div>
+      <div class="geo-title">Budget capex push: ₹11L crore in infra outlay — who benefits?</div>
+      <div class="geo-body">Government's continued infrastructure focus supports roads, railways, and defence manufacturing. Order books of capital goods companies swelling.</div>
+      <div class="geo-implication">Watch: L&T, ABB India, Siemens, Bharat Electronics, HAL. Capital goods sector in a multi-year upcycle.</div>
+      <div class="geo-footer"><span>Updated: June 2025</span><span>Infra · Defence</span></div>
+    </div>
+
+    <div class="geo-card">
+      <div class="geo-top">
+        <div>
+          <div class="geo-region">Global · AI</div>
+          <div class="geo-tag cool">🟢 Positive</div>
+        </div>
+        <div style="font-size:28px">🤖</div>
+      </div>
+      <div class="geo-title">AI infrastructure boom driving semiconductor demand — India's IT play</div>
+      <div class="geo-body">NVIDIA, TSMC supply chains stretched. India's IT majors riding the AI services wave as US tech cos ramp up AI workloads.</div>
+      <div class="geo-implication">Watch: TCS, Infosys, Persistent Systems leading AI services. Also: data centre REITs and power infra (Adani Green, NTPC).</div>
+      <div class="geo-footer"><span>Updated: June 2025</span><span>Technology · AI</span></div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ── NEWSLETTER ── -->
+<section class="section reveal" id="newsletter">
+  <div class="newsletter-wrap">
+    <div>
+      <div class="section-label" style="margin-bottom:12px">Newsletter</div>
+      <div class="nl-title">Geopolitics decoded.<br><span>Markets unpacked.</span></div>
+      <p class="nl-sub">One email a week. No jargon, no spam — just clear-eyed analysis on how global events shape Indian markets.</p>
+      <ul class="nl-bullets">
+        <li>Weekly geo → markets breakdown</li>
+        <li>One chart that tells the story</li>
+        <li>What to watch in the week ahead</li>
+      </ul>
+      <div style="margin-top:24px">
+        <div class="nl-stats">
+          <div>
+            <div class="nl-stat-val">Free</div>
+            <div class="nl-stat-lbl">Always</div>
+          </div>
+          <div>
+            <div class="nl-stat-val">Weekly</div>
+            <div class="nl-stat-lbl">Every Sunday</div>
+          </div>
+          <div>
+            <div class="nl-stat-val">5 min</div>
+            <div class="nl-stat-lbl">Read time</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="nl-form">
+      <div style="font-size:14px; font-weight:500; margin-bottom:4px;">Join the newsletter</div>
+      <div class="nl-input-row">
+        <input type="email" class="nl-input" placeholder="your@email.com" id="nlEmail" />
+        <button class="nl-btn" onclick="handleNL()">Subscribe →</button>
+      </div>
+      <p class="nl-note">📌 Currently delivered via X/Twitter threads. Email list launching soon — enter your email to be first.</p>
+      <div style="margin-top:16px; padding:16px; background:var(--navy); border:1px solid var(--border); border-radius:10px;">
+        <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px;">Follow for daily updates</div>
+        <a href="https://x.com/PitchAndPattern" target="_blank" style="display:inline-flex; align-items:center; gap:8px; color:var(--text); text-decoration:none; font-size:14px; font-weight:600;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.743l7.735-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+          @PitchAndPattern
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-left">
+    © 2025 <strong>Pitch & Pattern</strong> · Built with clarity in mind
+  </div>
+  <div class="footer-links">
+    <a href="https://x.com/PitchAndPattern" target="_blank">X / Twitter</a>
+    <a href="#markets">Markets</a>
+    <a href="#geopolitics">Geopolitics</a>
+  </div>
+  <div class="footer-disc">Not SEBI registered. Views are personal analysis, not investment advice. Do your own research.</div>
+</footer>
+
+
+<script>
+  /* ── TICKER DATA ── */
+  const tickers = [
+    { name: 'NIFTY 50',   val: '24,312',  chg: '+0.82%',  dir: 'up'   },
+    { name: 'SENSEX',     val: '80,104',  chg: '+0.75%',  dir: 'up'   },
+    { name: 'BANKNIFTY',  val: '52,480',  chg: '+1.10%',  dir: 'up'   },
+    { name: 'S&P 500',    val: '5,648',   chg: '+0.41%',  dir: 'up'   },
+    { name: 'NASDAQ',     val: '18,230',  chg: '+0.63%',  dir: 'up'   },
+    { name: 'NIKKEI 225', val: '38,910',  chg: '-0.22%',  dir: 'down' },
+    { name: 'HANG SENG',  val: '18,440',  chg: '-0.58%',  dir: 'down' },
+    { name: 'BRENT',      val: '$78.40',  chg: '-1.20%',  dir: 'down' },
+    { name: 'GOLD',       val: '$2,318',  chg: '+0.35%',  dir: 'up'   },
+    { name: 'USD/INR',    val: '₹84.21',  chg: '+0.04%',  dir: 'down' },
+    { name: 'INDIA VIX',  val: '13.42',   chg: '-4.20%',  dir: 'down' },
+    { name: 'BTC/USD',    val: '$67,820', chg: '+2.10%',  dir: 'up'   },
+  ];
+
+  function buildTicker() {
+    const track = document.getElementById('ticker');
+    // doubled for seamless loop
+    const html = [...tickers, ...tickers].map(t => `
+      <div class="tick">
+        <span class="tick-name">${t.name}</span>
+        <span class="tick-val">${t.val}</span>
+        <span class="tick-chg ${t.dir}">${t.dir === 'up' ? '▲' : '▼'} ${t.chg}</span>
+        <span class="tick-dot"></span>
+      </div>
+    `).join('');
+    track.innerHTML = html;
+  }
+  buildTicker();
+
+  /* ── MARKET CARDS ── */
+  const markets = [
+    { name: 'Nifty 50',      flag: '🇮🇳', val: '24,312.40', chg: '+199.55', pct: '+0.83%', dir: 'up' },
+    { name: 'Sensex',        flag: '🇮🇳', val: '80,104.65', chg: '+598.71', pct: '+0.75%', dir: 'up' },
+    { name: 'Bank Nifty',    flag: '🇮🇳', val: '52,480.15', chg: '+572.30', pct: '+1.10%', dir: 'up' },
+    { name: 'S&P 500',       flag: '🇺🇸', val: '5,648.10',  chg: '+23.04', pct: '+0.41%', dir: 'up' },
+    { name: 'Nasdaq 100',    flag: '🇺🇸', val: '18,230.55', chg: '+114.80', pct: '+0.63%', dir: 'up' },
+    { name: 'Nikkei 225',    flag: '🇯🇵', val: '38,910.20', chg: '-86.20', pct: '-0.22%', dir: 'down' },
+    { name: 'Hang Seng',     flag: '🇭🇰', val: '18,440.00', chg: '-108.10', pct: '-0.58%', dir: 'down' },
+    { name: 'Brent Crude',   flag: '🛢️', val: '$78.40',    chg: '-0.95', pct: '-1.20%', dir: 'down' },
+  ];
+
+  function buildMarkets() {
+    const grid = document.getElementById('marketGrid');
+    grid.innerHTML = markets.map(m => `
+      <div class="market-card ${m.dir}">
+        <div class="mc-flag">${m.flag}</div>
+        <div class="mc-name">${m.name}</div>
+        <div class="mc-val">${m.val}</div>
+        <div class="mc-chg ${m.dir}">
+          ${m.dir === 'up' ? '▲' : '▼'} ${m.chg} &nbsp;(${m.pct})
+        </div>
+      </div>
+    `).join('');
+  }
+  buildMarkets();
+
+  /* ── NIFTY SIDEBAR UPDATE ── */
+  document.getElementById('niftyVal').textContent = '24,312';
+  document.getElementById('niftyChg').textContent = '▲ +199.55 (+0.83%) today';
+  document.getElementById('niftyChg').classList.add('up-text');
+
+  /* ── NEWSLETTER HANDLER ── */
+  function handleNL() {
+    const email = document.getElementById('nlEmail').value.trim();
+    if (!email || !email.includes('@')) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+    // Store locally — replace with your actual form handler / Beehiiv embed later
+    const btn = document.querySelector('.nl-btn');
+    btn.textContent = '✓ You\'re on the list!';
+    btn.style.background = 'var(--green)';
+    btn.style.color = '#000';
+    btn.disabled = true;
+    document.getElementById('nlEmail').disabled = true;
+  }
+
+  /* ── SCROLL REVEAL ── */
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.08 });
+  reveals.forEach(r => observer.observe(r));
+</script>
 </body>
 </html>
