@@ -621,28 +621,9 @@
       </div>
       <!-- TradingView Widget END -->
     </div>
-    <div class="chart-sidebar">
-      <div class="sidebar-card">
-        <div class="sidebar-label">Nifty 50</div>
-        <div class="sidebar-val" id="niftyVal">—</div>
-        <div class="sidebar-sub up-text" id="niftyChg">Loading…</div>
-      </div>
-      <div class="sidebar-card">
-        <div class="sidebar-label">India VIX</div>
-        <div class="sidebar-val" id="vixVal">13.42</div>
-        <div class="sidebar-sub down-text">↓ 0.8 · Low volatility zone</div>
-      </div>
-      <div class="sidebar-card">
-        <div class="sidebar-label">USD/INR</div>
-        <div class="sidebar-val">₹84.21</div>
-        <div class="sidebar-sub muted" style="color:var(--muted)">Stable · RBI intervention range</div>
-      </div>
-      <div class="sidebar-card">
-        <div class="sidebar-label">Brent Crude</div>
-        <div class="sidebar-val">$78.4</div>
-        <div class="sidebar-sub down-text">↓ 1.2% · Watch Iran tensions</div>
-      </div>
-    </div>
+    <script type="module" src="https://widgets.tradingview-widget.com/w/en/tv-tickers.js"></script>
+
+    <tv-tickers symbols="NSE:NIFTY,NSE:BANKNIFTY,BSE:SENSEX,NSE:NIFTY_MID_SELECT,MCX:GOLD1!,MCX:SILVER1!,MCX:CRUDEOIL1!" hide-chart></tv-tickers>
   </div>
 </section>
 
